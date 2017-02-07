@@ -1,0 +1,37 @@
+{
+    "manifestVersion": 1,
+    "id": "vsts-smoke-web-test-task",
+    "name": "Smoke Web Test Task",
+    "version": "0.1.0",
+    "publisher": "miguelcruz",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Task for performing smoke web tests.",
+    "categories": [
+        "Build and release"
+    ],
+    "files": [
+        {
+            "path": "AzureWebPowerShellSwap"
+        },
+        {
+            "path": "images/donate.png",
+            "addressable": true
+        }
+    ],
+    "contributions": [
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/Duber/vsts-smoke-web-test-task"
+    },
+    "public": true
+}
