@@ -13,12 +13,9 @@
         "Agent",
         "MachineGroup"
     ],
-    "demands": [
-        "azureps"
-    ],
     "version": {
         "Major": 1,
-        "Minor": 0,
+        "Minor": 1,
         "Patch": 0
     },
     "inputs": [
@@ -39,7 +36,7 @@
         },
     ],
     "execution": {
-        "AzurePowerShell": {
+        "PowerShell": {
             "target": "$(currentDirectory)\\task.ps1",
             "argumentFormat": "",
             "workingDirectory": "$(currentDirectory)"

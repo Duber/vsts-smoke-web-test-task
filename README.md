@@ -7,9 +7,9 @@ This is an extension for Visual Studio Team Services.
 It adds a task that allows you to make a smoke web test.
 
 ## What is a smoke web test ?
-Find ![here](https://en.wikipedia.org/wiki/Smoke_testing_(software)) wikipedia's definition.
+Find [here](https://en.wikipedia.org/wiki/Smoke_testing_(software)) wikipedia's definition.
 
-Basically it's a simple http request to make sure everything is working (or at least responding positively).
+Basically it's a simple http request to make sure everything is working (or at least responding).
 
 You can also use it to pre-load your system before going live.
 
