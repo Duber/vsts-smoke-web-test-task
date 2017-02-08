@@ -2,13 +2,16 @@
     "manifestVersion": 1,
     "id": "vsts-smoke-web-test-task",
     "name": "Smoke Web Test Task",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "publisher": "miguelcruz",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
+    "icons": {
+        "default": "images/icon-small.png"
+    },
     "description": "Task for performing smoke web tests.",
     "categories": [
         "Build and release"
@@ -19,6 +22,10 @@
         },
         {
             "path": "images/donate.png",
+            "addressable": true
+        },
+        {
+            "path": "images/icon-small.png",
             "addressable": true
         }
     ],
