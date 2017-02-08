@@ -13,9 +13,6 @@
         "Agent",
         "MachineGroup"
     ],
-    "demands": [
-        "azureps"
-    ],
     "version": {
         "Major": 0,
         "Minor": 0,

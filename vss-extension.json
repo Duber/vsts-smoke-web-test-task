@@ -43,5 +43,5 @@
         "type": "git",
         "uri": "https://github.com/Duber/vsts-smoke-web-test-task"
     },
-    "public": true
+    "public": false
 }
