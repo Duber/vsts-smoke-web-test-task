@@ -17,15 +17,20 @@ try
     $HTTP_Response = $HTTP_Request.GetResponse()
     $HTTP_Status = [int]$HTTP_Response.StatusCode
     $HTTP_Response.Close()
-
-    If ($HTTP_Status -eq $expectedReturnCode) {
-        Write-Host "Web test success" -foregroundcolor green
-    }
-    Else {
-        throw "Web test failed, received HTTP $HTTP_Status but expected HTTP $expectedReturnCode."
-    }
 }
 catch [System.Net.WebException]
 {
+    $res = $_.Exception.Response
+    $HTTP_Status = [int]$res.StatusCode
+}
+catch
+{
     throw "$_"
+}
+
+If ($HTTP_Status -eq $expectedReturnCode) {
+    Write-Host "Web test success" -foregroundcolor green
+}
+Else {
+    throw "Web test failed, received HTTP $HTTP_Status but expected HTTP $expectedReturnCode."
 }
