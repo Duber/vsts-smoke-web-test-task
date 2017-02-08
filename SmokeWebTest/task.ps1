@@ -18,10 +18,14 @@ try
     $HTTP_Status = [int]$HTTP_Response.StatusCode
     $HTTP_Response.Close()
 
-    Write-Host "Web test success" -foregroundcolor green
+    If ($HTTP_Status -eq $expectedReturnCode) {
+        Write-Host "Web test success" -foregroundcolor green
+    }
+    Else {
+        throw "Web test failed, received HTTP $HTTP_Status but expected HTTP $expectedReturnCode."
+    }
 }
 catch [System.Net.WebException]
 {
-    Write-Host "$_" -foregroundcolor red
-    exit 1
+    throw "$_"
 }
