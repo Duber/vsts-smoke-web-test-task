@@ -6,7 +6,7 @@
     "author": "Miguel Cruz",
     "category": "Test",
     "icons": {
-        "default": "icon-small.png"
+        "default": "../images/icon-small.png"
     },
     "visibility": [
         "Build",

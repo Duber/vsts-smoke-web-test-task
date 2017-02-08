@@ -13,6 +13,10 @@ Basically it's a simple http request to make sure everything is working (or at l
 
 You can also use it to pre-load your system before going live.
 
+## Images
+![Smoke web test task preview](images/task.jpg)
+![Smoke web test task preview detail](images/task-detail.jpg)
+
 ## Requirements
 Since the task is executed by the build agent, your build machines has to have access to the website you are trying to call.
 
