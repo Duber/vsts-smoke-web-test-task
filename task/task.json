@@ -40,8 +40,9 @@
     ],
     "execution": {
         "AzurePowerShell": {
-            "target": "task.ps1",
-            "argumentFormat": ""
+            "target": "$(currentDirectory)\\task.ps1",
+            "argumentFormat": "",
+            "workingDirectory": "$(currentDirectory)"
         }
     }
 }
