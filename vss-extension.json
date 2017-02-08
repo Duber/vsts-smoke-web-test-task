@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsts-smoke-web-test-task",
     "name": "Smoke Web Test Task",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "miguelcruz",
     "targets": [
         {
