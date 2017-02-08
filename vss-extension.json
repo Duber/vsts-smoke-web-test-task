@@ -15,11 +15,24 @@
     ],
     "files": [
         {
+            "path": "task"
+        },
+        {
             "path": "images/donate.png",
             "addressable": true
         }
     ],
     "contributions": [
+        {
+            "id": "smoke-web-test",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "SmokeWebTest"
+            }
+        }
     ],
     "content": {
         "details": {
