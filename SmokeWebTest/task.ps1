@@ -5,7 +5,10 @@ param
     $url,
 
     [String] [Parameter(Mandatory = $true)]
-    $expectedReturnCode
+    $expectedReturnCode,
+
+    [int] [Parameter(Mandatory = $true)]
+    $timeout 
 )
 
 Write-Host "Executing web test for $url"
@@ -14,6 +17,7 @@ $HTTP_Request = [System.Net.WebRequest]::Create($url)
 
 try
 {
+    $HTTP_Request.Timeout = $timeout * 1000
     $HTTP_Response = $HTTP_Request.GetResponse()
     $HTTP_Status = [int]$HTTP_Response.StatusCode
     $HTTP_Response.Close()

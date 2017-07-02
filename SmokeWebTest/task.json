@@ -15,10 +15,17 @@
     ],
     "version": {
         "Major": 1,
-        "Minor": 3,
+        "Minor": 4,
         "Patch": 0
     },
     "instanceNameFormat": "Smoke Web Test",
+    "groups": [
+        {
+            "name": "advanced",
+            "displayName": "Advanced",
+            "isExpanded": false
+        }
+    ],
     "inputs": [
         {
             "name": "url",
@@ -34,7 +41,18 @@
             "defaultValue": "200",
             "pattern": "^([1-5][0-9][0-9])$",
             "required": true,
-            "helpMarkDown": "Expected HTTP return code. ie 200. Accepted values: 100-599."
+            "helpMarkDown": "Expected HTTP return code. ie 200. Accepted values: 100-599.",
+            "groupName": "advanced"
+        },
+        {
+            "name": "timeout",
+            "type": "int",
+            "label": "Timeout",
+            "defaultValue": 100,
+            "pattern": "^([1-9]|[1-9][0-9]|[1-6][0-9][0-9])$",
+            "required": true,
+            "helpMarkDown": "Time in seconds before request times out. Accepted values: 1-600",
+            "groupName": "advanced"
         }
     ],
     "execution": {
