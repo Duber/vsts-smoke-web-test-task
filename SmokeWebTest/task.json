@@ -16,7 +16,7 @@
     "version": {
         "Major": 1,
         "Minor": 4,
-        "Patch": 3
+        "Patch": 4
     },
     "instanceNameFormat": "Smoke Web Test",
     "groups": [
@@ -52,6 +52,16 @@
             "pattern": "^([1-9]|[1-9][0-9]|[1-6][0-9][0-9])$",
             "required": true,
             "helpMarkDown": "Time in seconds before request times out. Accepted values: 1-600",
+            "groupName": "advanced"
+        },
+        {
+            "name": "retryAttemptCount",
+            "type": "string",
+            "label": "Number of Retry Attempts",
+            "defaultValue": 3,
+            "pattern": "([1-4][0-9]|[1-9]|50)$",
+            "required": true,
+            "helpMarkDown": "Nubmer of time to retry the call to the site before failing.  Accepted values: 1-50",
             "groupName": "advanced"
         }
     ],

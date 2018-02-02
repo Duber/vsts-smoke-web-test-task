@@ -13,37 +13,93 @@ param
     [int]
     [Parameter(Mandatory = $true)]
     [ValidateRange(1,600)] 
-    $timeout 
+    $timeout, 
+
+    [int]
+    [Parameter(Mandatory = $true)]
+    [ValidateRange(1,50)]
+    $retryAttemptCount
 )
 
-Write-Host "Executing web test for $url"
+Write-Host "Begin Smoke Test ...";
 
-$HTTP_Status_Timeout = 0
-$HTTP_Request = [System.Net.WebRequest]::Create($url)
 
-try
+<#
+    PerformCallAndStatusCheck
+        -- this does the work of making a call to the requested URL and 
+            checking the return status againt the expected return
+#>
+function PerformCallAndStatusCheck
 {
-    $HTTP_Request.Timeout = $timeout * 1000
-    $HTTP_Response = $HTTP_Request.GetResponse()
-    $HTTP_Status = [int]$HTTP_Response.StatusCode
-    $HTTP_Response.Close()
-}
-catch [System.Net.WebException]
-{
-    $res = $_.Exception.Response
-    $HTTP_Status = [int]$res.StatusCode
-}
-catch
-{
-    throw "$_"
+    [bool] $returnVal = $false;
+    $HTTP_Status_Timeout = 0
+    $HTTP_Request = [System.Net.WebRequest]::Create($url)
+    Write-Host "calling to check $url";
+    try
+    {
+        $HTTP_Request.Timeout = $timeout * 1000
+        $HTTP_Response = $HTTP_Request.GetResponse()
+        $HTTP_Status = [int]$HTTP_Response.StatusCode
+        $HTTP_Response.Close()
+    }
+    catch [System.Net.WebException]
+    {
+        $res = $_.Exception.Response
+        $HTTP_Status = [int]$res.StatusCode
+    }
+    catch
+    {
+        throw "$_"
+    }
+
+    If ($HTTP_Status -eq $expectedReturnCode) {
+        $returnVal = $true;
+
+    }
+    ElseIf ($HTTP_Status -eq $HTTP_Status_Timeout) {
+        Write-Host "Request failed due to timeout after $timeout seconds."
+    }
+    Else {
+        Write-Host "Web test failed, received HTTP $HTTP_Status but expected HTTP $expectedReturnCode."
+    }
+
+    return $returnVal;
 }
 
-If ($HTTP_Status -eq $expectedReturnCode) {
-    Write-Host "Web test success" -foregroundcolor green
+
+<#
+    Main
+        -- This is the main logic control, currently handles the retry logic for 
+            for the calls to check the website status
+#>
+function Main
+{
+    Write-Debug "Begin Main";
+    [int] $count = 0;
+    [bool] $success = $false;
+    DO {
+        if($count -gt 0)
+        {
+            Write-Host " Retrying ....  ";
+            Start-Sleep -Seconds 1;
+        }
+        $success = PerformCallAndStatusCheck;
+        
+        $count += 1;
+
+    } While ($count -le $retryAttemptCount -and -Not $success)
+
+    if($success)
+    {
+        Write-Host "Smoke test was successful for $url";
+    
+    }
+    Else{
+        Write-Error "Failed to get an expected result ... "
+        #throw "failed smoke test of $url";
+        
+    }
 }
-ElseIf ($HTTP_Status -eq $HTTP_Status_Timeout) {
-    throw "Request failed due to timeout after $timeout seconds."
-}
-Else {
-    throw "Web test failed, received HTTP $HTTP_Status but expected HTTP $expectedReturnCode."
-}
+
+
+Main;
