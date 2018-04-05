@@ -24,6 +24,22 @@ param
 Write-Host "Begin Smoke Test ...";
 
 
+
+add-type @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(
+        ServicePoint srvPoint, X509Certificate certificate,
+        WebRequest request, int certificateProblem) {
+        return true;
+    }
+}
+"@
+
+
+
+
 <#
     PerformCallAndStatusCheck
         -- this does the work of making a call to the requested URL and 
@@ -32,6 +48,9 @@ Write-Host "Begin Smoke Test ...";
 function PerformCallAndStatusCheck
 {
     [bool] $returnVal = $false;
+    $AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
+    [System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
+    [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
     $HTTP_Status_Timeout = 0
     $HTTP_Request = [System.Net.WebRequest]::Create($url)
     Write-Host "calling to check $url";

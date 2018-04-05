@@ -28,3 +28,4 @@ Since the task is executed by the build agent, your build machines has to have a
 
 ## Credits
 [Miguel Cruz](http://www.miguelcruz.net)
+[baileyjs78](https://github.com/baileyjs78)
