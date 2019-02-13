@@ -13,8 +13,19 @@ param
     [int]
     [Parameter(Mandatory = $true)]
     [ValidateRange(1,600)] 
-    $timeout 
+    $timeout,
+	
+	[int]
+    [ValidateRange(0,10)] 
+	$retries = 0,
+	
+	[int]
+    [ValidateRange(1,30)] 
+	$seconds = 5
 )
+
+$retryCount = 1
+$stopLoop = $false
 
 Write-Host "Executing web test for $url"
 
@@ -36,22 +47,37 @@ $AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
 $HTTP_Status_Timeout = 0
 $HTTP_Request = [System.Net.WebRequest]::Create($url)
 
-try
+do 
 {
-    $HTTP_Request.Timeout = $timeout * 1000
-    $HTTP_Response = $HTTP_Request.GetResponse()
-    $HTTP_Status = [int]$HTTP_Response.StatusCode
-    $HTTP_Response.Close()
+	try
+	{
+		$HTTP_Request.Timeout = $timeout * 1000
+		$HTTP_Response = $HTTP_Request.GetResponse()
+		$HTTP_Status = [int]$HTTP_Response.StatusCode
+		$HTTP_Response.Close()
+		$Stoploop = $true
+	}
+	catch [System.Net.WebException]
+	{	
+		$res = $_.Exception.Response
+		$HTTP_Status = [int]$res.StatusCode
+		
+		if ($retryCount -gt $retries) {
+			$Stoploop = $true
+		}
+		else {
+			Write-Host "Try $retryCount - StatusCode: $HTTP_Status - Retrying in $seconds seconds..." -foregroundcolor red
+			Start-Sleep -Seconds $seconds
+			$retryCount = $retryCount + 1
+		}
+	}
+	catch
+	{
+		throw "$_"
+	}
 }
-catch [System.Net.WebException]
-{
-    $res = $_.Exception.Response
-    $HTTP_Status = [int]$res.StatusCode
-}
-catch
-{
-    throw "$_"
-}
+while ($stoploop -eq $false)
+
 
 If ($HTTP_Status -eq $expectedReturnCode) {
     Write-Host "Web test success" -foregroundcolor green

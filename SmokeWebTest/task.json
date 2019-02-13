@@ -15,7 +15,7 @@
     ],
     "version": {
         "Major": 1,
-        "Minor": 5,
+        "Minor": 6,
         "Patch": 0
     },
     "instanceNameFormat": "Smoke Web Test",
@@ -53,6 +53,24 @@
             "required": true,
             "helpMarkDown": "Time in seconds before request times out. Accepted values: 1-600",
             "groupName": "advanced"
+        },
+		{
+            "name": "retries",
+            "type": "string",
+            "label": "Retries",
+			"defaultValue": 0,
+			"pattern": "^([0-9]|[1][0])$",
+            "required": false,
+            "helpMarkDown": "Number of retries. Default = 0. Accepted values: 1-10"
+        },
+		{
+            "name": "seconds",
+            "type": "string",
+            "label": "Time in seconds between retries",
+			"defaultValue": 1,
+			"pattern": "^([1-9]|[1-2][0-9]|[3][0])$",
+            "required": false,
+            "helpMarkDown": "Time in seconds seconds between retries. Default = 1. Accepted values: 1-30"
         }
     ],
     "execution": {
